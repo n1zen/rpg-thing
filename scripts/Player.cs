@@ -13,8 +13,6 @@ public partial class Player : CharacterBody2D
 
 	public void PlayerMovement()
 	{
-		// Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		AnimatedSprite2D animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		var inputDir = new Vector2();
 		
 		if (Input.IsActionPressed("ui_left"))
