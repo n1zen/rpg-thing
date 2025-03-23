@@ -4,49 +4,49 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	public float Speed = 100.0f;
-	private string _currentDirection;
+	private string _currentDirection = "down";
 
-	public override void _PhysicsProcess(double delta)
+    public override void _Ready()
+    {
+        PlayAnimation(0);
+    }
+
+    public override void _PhysicsProcess(double delta)
 	{
 		PlayerMovement();
 	}
 
 	public void PlayerMovement()
 	{
-		var inputDir = new Vector2();
-		
-		if (Input.IsActionPressed("ui_left"))
+		Vector2 inputDir;
+		if (Input.IsActionPressed("move_left"))
 		{
-			inputDir.X = -1;
-			inputDir.Y = 0;
+			inputDir = Vector2.Left;
 			_currentDirection = "left";
 			PlayAnimation(1);
 		}
-		else if (Input.IsActionPressed("ui_right"))
+		else if (Input.IsActionPressed("move_right"))
 		{
-			inputDir.X = 1;
-			inputDir.Y = 0;
+			
+			inputDir = Vector2.Right;
 			_currentDirection = "right";
 			PlayAnimation(1);
 		}
-		else if (Input.IsActionPressed("ui_up"))
-		{
-			inputDir.X = 0;
-			inputDir.Y = -1;
+		else if (Input.IsActionPressed("move_up"))
+		{		
+			inputDir = Vector2.Up;
 			_currentDirection = "up";
 			PlayAnimation(1);
 		}
-		else if (Input.IsActionPressed("ui_down"))
+		else if (Input.IsActionPressed("move_down"))
 		{
-			inputDir.X = 0;
-			inputDir.Y = 1;
+			inputDir = Vector2.Down;
 			_currentDirection = "down";
 			PlayAnimation(1);
 		}
 		else
 		{
-			inputDir.X = 0;
-			inputDir.Y = 0;
+			inputDir = Vector2.Zero;
 			PlayAnimation(0);
 		}
 		Velocity = inputDir.Normalized() * Speed;
@@ -59,48 +59,20 @@ public partial class Player : CharacterBody2D
 		if (_currentDirection == "left")
 		{
 			animatedSprite.FlipH = true;
-			if(movement == 0)
-			{
-				animatedSprite.Play("idle_side");
-			}
-			else
-			{
-				animatedSprite.Play("move_side");
-			}
+			animatedSprite.Play((movement == 0) ? "idle_side" : "move_side");
 		}
 		else if (_currentDirection == "right")
 		{
 			animatedSprite.FlipH = false;
-			if(movement == 0)
-			{
-				animatedSprite.Play("idle_side");
-			}
-			else
-			{
-				animatedSprite.Play("move_side");
-			}
+			animatedSprite.Play((movement == 0) ? "idle_side" : "move_side");
 		}
 		else if (_currentDirection == "up")
 		{
-			if(movement == 0)
-			{
-				animatedSprite.Play("idle_back");
-			}
-			else
-			{
-				animatedSprite.Play("move_up");;
-			}
+			animatedSprite.Play((movement == 0) ? "idle_up" : "move_up");
 		}
 		else if (_currentDirection == "down")
 		{
-			if(movement == 0)
-			{
-				animatedSprite.Play("idle_front");
-			}
-			else
-			{
-				animatedSprite.Play("move_down");
-			}
+			animatedSprite.Play((movement == 0) ? "idle_down" : "move_down");
 		}
 	}
 }
